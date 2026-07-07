@@ -33,6 +33,17 @@ enum AppColor {
 
     static let tileBackground = Color(uiColor: .secondarySystemBackground)
     static let chipBackground = Color(uiColor: .tertiarySystemBackground)
+
+    // Uber One membership palette. The gold adapts per appearance so text
+    // and icons stay legible; the two backgrounds are fixed because their
+    // content color is fixed (white on hero, black on renew).
+    static let membershipGold = Color(uiColor: UIColor { trait in
+        trait.userInterfaceStyle == .dark
+            ? UIColor(red: 0.87, green: 0.71, blue: 0.32, alpha: 1)
+            : UIColor(red: 0.58, green: 0.44, blue: 0.04, alpha: 1)
+    })
+    static let membershipHeroBackground = Color(red: 0.56, green: 0.42, blue: 0.05)
+    static let membershipRenewBackground = Color(red: 0.95, green: 0.76, blue: 0.29)
 }
 
 private extension Color {

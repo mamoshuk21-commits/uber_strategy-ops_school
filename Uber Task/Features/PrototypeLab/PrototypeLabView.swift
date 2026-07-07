@@ -40,6 +40,91 @@ struct PrototypeLabView: View {
                 }
             }
 
+            Section("Uber One membership") {
+                Picker("State", selection: $store.uberOneMembership.state) {
+                    ForEach(UberOneMembershipState.allCases) { state in
+                        Text(state.displayName).tag(state)
+                    }
+                }
+                Picker("Plan", selection: $store.uberOneMembership.plan) {
+                    Text("None").tag(UberOnePlan?.none)
+                    ForEach(UberOnePlan.allCases) { plan in
+                        Text(plan.displayName).tag(UberOnePlan?.some(plan))
+                    }
+                }
+                Picker("Billing period", selection: $store.uberOneMembership.billingPeriod) {
+                    ForEach(UberOneBillingPeriod.allCases) { period in
+                        Text(period.displayName).tag(period)
+                    }
+                }
+                DatePicker(
+                    "Free month ends",
+                    selection: $store.uberOneMembership.freeMonthEndDate,
+                    displayedComponents: .date
+                )
+                LabeledContent("Days until end", value: "\(store.uberOneDaysUntilFreeMonthEnds)")
+                Picker("Renew banner", selection: $store.uberOneRenewBannerMode) {
+                    ForEach(UberOneRenewBannerMode.allCases) { mode in
+                        Text(mode.displayName).tag(mode)
+                    }
+                }
+            }
+
+            Section("Uber One savings (Account tab)") {
+                Stepper(
+                    "\(store.uberOneSavings.orderCount) orders",
+                    value: $store.uberOneSavings.orderCount,
+                    in: 0...999
+                )
+                LabeledContent("Order savings") {
+                    TextField(
+                        "Order savings",
+                        value: $store.uberOneSavings.orderSavings,
+                        format: .currency(code: "USD")
+                    )
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                }
+                Stepper(
+                    "\(store.uberOneSavings.rideCount) rides",
+                    value: $store.uberOneSavings.rideCount,
+                    in: 0...999
+                )
+                LabeledContent("Ride savings") {
+                    TextField(
+                        "Ride savings",
+                        value: $store.uberOneSavings.rideSavings,
+                        format: .currency(code: "USD")
+                    )
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                }
+                LabeledContent(
+                    "Total shown",
+                    value: store.uberOneSavings.total.formatted(.currency(code: "USD"))
+                )
+            }
+
+            Section("Uber One scenarios") {
+                Button("New user — no subscription") {
+                    store.resetUberOne()
+                }
+                Button("Free month just started") {
+                    store.startUberOneFreeMonth(billingPeriod: .monthly)
+                }
+                Button("Free month ending in 5 days") {
+                    store.startUberOneFreeMonth(billingPeriod: .monthly)
+                    store.setUberOneFreeMonthEnd(daysFromNow: 5)
+                }
+                Button("Paid — All Access, yearly") {
+                    store.activateUberOnePlan(.allAccess, billingPeriod: .yearly)
+                }
+                Button("Expired membership") {
+                    store.uberOneMembership.state = .expired
+                    store.setUberOneFreeMonthEnd(daysFromNow: -3)
+                }
+            }
+
             Section("Banners") {
                 ForEach(store.allBanners) { banner in
                     Toggle(isOn: bannerBinding(banner)) {

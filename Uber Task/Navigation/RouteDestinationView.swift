@@ -20,6 +20,10 @@ struct RouteDestinationView: View {
             ServicesListView(initialCategory: category)
         case .prototypeLab:
             PrototypeLabView()
+        case .uberOneDetails:
+            UberOneDetailsView()
+        case .uberOneUpsell:
+            UberOneUpsellView()
         }
     }
 }

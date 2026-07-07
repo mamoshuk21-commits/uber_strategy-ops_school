@@ -21,7 +21,7 @@ struct AvatarView: View {
             .frame(width: size, height: size)
             .overlay {
                 Text(initials)
-                    .font(.system(size: size * 0.42, weight: .semibold, design: .rounded))
+                    .font(.system(size: size * 0.42, weight: .semibold))
                     .foregroundStyle(AppColor.textOnInvertedSurface)
             }
     }

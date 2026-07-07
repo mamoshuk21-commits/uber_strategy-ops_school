@@ -19,30 +19,26 @@ struct RootTabView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack(path: $homePath) {
-                HomeScreenView(path: $homePath)
-                    .navigationDestination(for: AppRoute.self) { route in
-                        RouteDestinationView(route: route)
-                    }
+            Tab(AppTab.home.title, systemImage: AppTab.home.systemImage, value: .home) {
+                NavigationStack(path: $homePath) {
+                    HomeScreenView(path: $homePath)
+                        .navigationDestination(for: AppRoute.self) { route in
+                            RouteDestinationView(route: route)
+                        }
+                }
             }
-            .tabItem { Label(AppTab.home.title, systemImage: AppTab.home.systemImage) }
-            .tag(AppTab.home)
-            .accessibilityLabel(AppTab.home.title)
 
-            ServicesTabView(path: $servicesPath)
-                .tabItem { Label(AppTab.services.title, systemImage: AppTab.services.systemImage) }
-                .tag(AppTab.services)
-                .accessibilityLabel(AppTab.services.title)
+            Tab(AppTab.services.title, systemImage: AppTab.services.systemImage, value: .services) {
+                ServicesTabView(path: $servicesPath)
+            }
 
-            ActivityView(path: $activityPath)
-                .tabItem { Label(AppTab.activity.title, systemImage: AppTab.activity.systemImage) }
-                .tag(AppTab.activity)
-                .accessibilityLabel(AppTab.activity.title)
+            Tab(AppTab.activity.title, systemImage: AppTab.activity.systemImage, value: .activity) {
+                ActivityView(path: $activityPath)
+            }
 
-            AccountView(path: $accountPath)
-                .tabItem { Label(AppTab.account.title, systemImage: AppTab.account.systemImage) }
-                .tag(AppTab.account)
-                .accessibilityLabel(AppTab.account.title)
+            Tab(AppTab.account.title, systemImage: AppTab.account.systemImage, value: .account) {
+                AccountView(path: $accountPath)
+            }
         }
         .tint(AppColor.textPrimary)
         .environment(store)

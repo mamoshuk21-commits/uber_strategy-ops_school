@@ -13,4 +13,6 @@ enum AppRoute: Hashable {
     case allServices
     case servicesCategory(ServiceCategoryKind)
     case prototypeLab
+    case uberOneDetails
+    case uberOneUpsell
 }

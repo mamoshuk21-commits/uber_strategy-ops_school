@@ -51,9 +51,9 @@ struct DestinationSearchCard: View {
                     .font(.system(size: 20))
                     .foregroundStyle(AppColor.textSecondary)
             }
-            .padding(.horizontal, AppSpacing.sm)
+            .padding(.horizontal, AppSpacing.md)
             .frame(height: AppMetrics.searchFieldHeight)
-            .background(AppColor.tileBackground, in: RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous))
+            .background(AppColor.tileBackground, in: Capsule())
         }
         .accessibilityLabel("Where to? Search for a destination")
     }

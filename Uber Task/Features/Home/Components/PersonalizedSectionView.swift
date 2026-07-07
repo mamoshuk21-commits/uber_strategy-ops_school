@@ -15,7 +15,7 @@ struct PersonalizedSectionView: View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             SectionHeaderView(title: section.title)
 
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.horizontal) {
                 HStack(spacing: AppSpacing.sm) {
                     ForEach(section.cards) { card in
                         SuggestionCardView(card: card, action: { onSelect(card) })
@@ -23,6 +23,7 @@ struct PersonalizedSectionView: View {
                 }
                 .padding(.horizontal, 1) // keeps shadows from clipping at scroll edges
             }
+            .scrollIndicators(.hidden)
         }
     }
 }

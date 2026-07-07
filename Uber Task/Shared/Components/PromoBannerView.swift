@@ -14,6 +14,16 @@ struct PromoBannerView: View {
     var onDismiss: (() -> Void)? = nil
 
     var body: some View {
+        Button(action: onPrimaryAction) {
+            bannerContent
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(banner.title). \(banner.subtitle)")
+        .accessibilityHint(banner.ctaText.map { "Double tap to \($0.lowercased())" } ?? "")
+    }
+
+    private var bannerContent: some View {
         HStack(spacing: AppSpacing.sm) {
             Image(systemName: banner.systemImage)
                 .font(.system(size: 20, weight: .semibold))
@@ -59,12 +69,6 @@ struct PromoBannerView: View {
         }
         .padding(AppSpacing.sm)
         .cardBackground()
-        .contentShape(Rectangle())
-        .onTapGesture(perform: onPrimaryAction)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(banner.title). \(banner.subtitle)")
-        .accessibilityHint(banner.ctaText.map { "Double tap to \($0.lowercased())" } ?? "")
-        .accessibilityAddTraits(.isButton)
     }
 
     private var iconColor: Color {

@@ -29,6 +29,18 @@ struct HomeScreenView: View {
                     onAvatarTap: { path.append(AppRoute.prototypeLab) }
                 )
 
+                // Uber One slot sits at the top of the feed; the renew banner
+                // wins over the acquisition carousel when both could apply.
+                if viewModel.showsUberOneRenewBanner {
+                    UberOneRenewBanner(endDate: viewModel.uberOneFreeMonthEndDate) {
+                        path.append(AppRoute.uberOneUpsell)
+                    }
+                } else if viewModel.showsUberOneCarousel {
+                    UberOneBannerCarousel(banners: viewModel.uberOneHomeBanners) { _ in
+                        path.append(AppRoute.uberOneDetails)
+                    }
+                }
+
                 if let topBanner = viewModel.banners(for: .homeTop).first {
                     PromoBannerView(
                         banner: topBanner,
@@ -92,8 +104,7 @@ struct HomeScreenView: View {
                 .background(.ultraThinMaterial)
             }
         }
-        .navigationTitle("")
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func openDeepLink(_ featureID: UUID?) {
@@ -112,6 +123,16 @@ struct HomeScreenView: View {
         HomeScreenView(path: .constant(NavigationPath()))
     }
     .environment(MockContentStore())
+}
+
+#Preview("Home - Renew banner") {
+    let store = MockContentStore()
+    store.startUberOneFreeMonth(billingPeriod: .monthly)
+    store.setUberOneFreeMonthEnd(daysFromNow: 5)
+    return NavigationStack {
+        HomeScreenView(path: .constant(NavigationPath()))
+    }
+    .environment(store)
 }
 
 #Preview("Home - Dark") {

@@ -8,7 +8,7 @@ import SwiftUI
 /// Shared white rounded-card treatment so cards stay visually consistent
 /// without repeating modifiers at every call site.
 struct CardBackground: ViewModifier {
-    var cornerRadius: CGFloat = AppRadius.lg
+    var cornerRadius: CGFloat = AppRadius.md
     var shadow: AppShadow = .card
 
     func body(content: Content) -> some View {
@@ -19,7 +19,7 @@ struct CardBackground: ViewModifier {
 }
 
 extension View {
-    func cardBackground(cornerRadius: CGFloat = AppRadius.lg, shadow: AppShadow = .card) -> some View {
+    func cardBackground(cornerRadius: CGFloat = AppRadius.md, shadow: AppShadow = .card) -> some View {
         modifier(CardBackground(cornerRadius: cornerRadius, shadow: shadow))
     }
 }

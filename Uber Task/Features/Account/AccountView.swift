@@ -23,15 +23,33 @@ struct AccountView: View {
                             Text(store.userProfile.locationLabel)
                                 .font(AppTypography.caption)
                                 .foregroundStyle(AppColor.textSecondary)
-                            if let membership = store.userProfile.membershipStatus.label {
+                            if let membership = store.uberOneStatusLabel {
                                 Text(membership)
                                     .font(AppTypography.captionEmphasized)
-                                    .foregroundStyle(AppColor.accentPromo)
+                                    .foregroundStyle(AppColor.membershipGold)
                             }
                         }
                     }
                     .padding(.vertical, AppSpacing.xxs)
                     .accessibilityElement(children: .combine)
+                }
+
+                Section("Uber One") {
+                    if store.uberOneMembership.state.isMember {
+                        NavigationLink(value: AppRoute.uberOneDetails) {
+                            UberOneAccountSavingsRow(
+                                membership: store.uberOneMembership,
+                                savings: store.uberOneSavings
+                            )
+                        }
+                        .accessibilityHint("Opens Uber One membership details")
+                    } else {
+                        NavigationLink(value: AppRoute.uberOneDetails) {
+                            Label("Join Uber One — 1 month free", systemImage: "circle.circle")
+                                .foregroundStyle(AppColor.textPrimary)
+                        }
+                        .accessibilityHint("Opens Uber One subscription details")
+                    }
                 }
 
                 Section("Places & payments") {
